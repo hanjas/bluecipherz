@@ -1,0 +1,132 @@
+/* Colors */
+/* images */
+/* Testing */
+body {
+  min-width: 100%;
+  min-height: 100%;
+  background: #fff; }
+
+.blueNav {
+  color: #ddd; }
+
+@font-face {
+  font-family: GOTHIC;
+  src: url(../../fonts/GOTHIC.otf);
+  src: url(../../fonts/Roboto-Light.ttf); }
+@font-face {
+  font-family: GOTHICB;
+  src: url(../../fonts/GOTHICB.otf);
+  src: url(../../fonts/Roboto-Bold.ttf); }
+@font-face {
+  font-family: audio;
+  src: url(../../fonts/Audiowide.ttf); }
+@font-face {
+  font-family: mixUL;
+  src: url(../../fonts/mixL.ttf); }
+@font-face {
+  font-family: mixBD;
+  src: url(../../fonts/mixBD.ttf); }
+@font-face {
+  font-family: r-b;
+  src: url(../../fonts/Roboto-Black.ttf); }
+@font-face {
+  font-family: r-m;
+  src: url(../../fonts/Roboto-Regular.ttf); }
+@font-face {
+  font-family: r-l;
+  src: url(../../fonts/Roboto-Thin.ttf); }
+/*==========================================================================================*/
+body {
+  font-family: GOTHIC;
+  padding: 0; }
+
+.Boxx {
+  width: 1080px;
+  margin-left: calc(50% - 540px ); }
+
+.tiltedWrapper {
+  display: block;
+  float: left;
+  positon: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; }
+
+.topTilted,
+.bottomTilted {
+  display: block;
+  float: left;
+  position: relative;
+  margin: 110px 0; }
+
+.topTilted:before,
+.bottomTilted:after {
+  content: '';
+  display: block;
+  float: left;
+  width: 120%;
+  position: absolute;
+  height: 100px;
+  top: -50px;
+  left: -10%;
+  transform: rotate(4deg);
+  background: #fff; }
+
+.bottomTilted:after {
+  transform: rotate(-4deg); }
+
+.m_top_10 {
+  margin-top: 10px; }
+
+.m_top_20 {
+  margin-top: 20px; }
+
+.m_top_30 {
+  margin-top: 30px; }
+
+.m_top_40 {
+  margin-top: 40px; }
+
+.m_bottom_10 {
+  margin-bottom: 10px; }
+
+.m_bottom_20 {
+  margin-bottom: 20px; }
+
+.m_bottom_30 {
+  margin-bottom: 30px; }
+
+.m_bottom_40 {
+  margin-bottom: 40px; }
+
+.opacity_0 {
+  opacity: 0; }
+
+.opacity_1 {
+  opacity: 0.1; }
+
+.opacity_2 {
+  opacity: 0.2; }
+
+.opacity_3 {
+  opacity: 0.3; }
+
+.opacity_4 {
+  opacity: 0.4; }
+
+.opacity_5 {
+  opacity: 0.5; }
+
+.opacity_6 {
+  opacity: 0.6; }
+
+.opacity_7 {
+  opacity: 0.7; }
+
+.opacity_8 {
+  opacity: 0.8; }
+
+.opacity_9 {
+  opacity: 0.9; }
+
+/*# sourceMappingURL=base.css.map */

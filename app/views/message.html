@@ -1,0 +1,43 @@
+<div class="basePage sh_page">
+	<div class="homeTop notHome">
+		<div class="boxx">
+			<div class="ht_img"></div>
+			<div class="ht_gr"></div>
+
+			<div class="ht_nameHead">SAY HELLO</div>
+
+			<div class="ht_logo"><img draggable="false" src="images/say_hello/logo.png"></div> 
+			<div class="ht_logo htl_big"><img draggable="false" src="images/say_hello/logo.png"></div> 
+
+			<div class="scrollArrow" ng-click="main.scrollArrow();">
+				<div class="sca1"></div>
+				<div class="sca2"></div>
+				<div class="sca3"></div>
+			</div>
+		</div>
+	</div>
+	<div class="sh_mid">
+		<div class="boxx">
+			<div class="shm_head">FEEL FREE TO CONTACT US</div>
+			<div class="shm_inp">
+				<input type="text" ng-mouseDown="say.inputClick(1)" ng-model="say.inp1" ng-blur="say.checkInput(1)">
+				<div class="shmi_name" ng-class="{'shmi_nameAct':say.inp1Act}">NAME</div>
+			</div>
+			<div class="shm_inp">
+				<input type="text" ng-mouseDown="say.inputClick(2)" ng-model="say.inp2" ng-blur="say.checkInput(2)">
+				<div class="shmi_name" ng-class="{'shmi_nameAct':say.inp2Act}">EMAIL</div>
+			</div>
+			<div class="shm_inp">
+				<input type="text" ng-mouseDown="say.inputClick(3)" ng-model="say.inp3" ng-blur="say.checkInput(3)">
+				<div class="shmi_name" ng-class="{'shmi_nameAct':say.inp3Act}">PHONE NUMBER</div>
+			</div>
+			<div class="shm_inp">
+				<textarea type="text" ng-mouseDown="say.inputClick(4)" ng-model="say.inp4" ng-blur="say.checkInput(4)"></textarea>
+				<div class="shmi_name" ng-class="{'shmi_nameAct':say.inp4Act}">CONTENT</div>
+			</div>
+			<div class="shm_inp">
+				<button type="text" ng-click="say.submitClick()" >SUBMIT</button> 
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,266 @@
+<div class="Dbox db-size-3 db-height-2 db_reports" ng-controller="FeedCtrl as feed">
+			<div class="db_refresh" ng-click="feed.refresh()" ng-class="{'db_refreshing':feed.refreshing}"></div>
+			<div class="db_head"  ng-click="feed.rep_add = false">DAILY FEEDS </div>
+			<div class="db_cont"  ng-click="feed.rep_add = false">
+
+				<div class="db_feed" ng-repeat="data in feed.feeds | orderBy : 'created_at' : true" ng-class="{'db_feed_deleted':data.deleted}">
+					<div class="dbf_dp"></div>
+					<div class="dbf_right">
+						<div class="dbf_options" ng-if="data.user.id == userData.id"> 
+							<div ng-click="feed.removeFeedRequest(data)"><i class="fa fa-close"></i></div>
+						</div>
+						<div class="dbf_date">{{data.updated_at}}</div> 
+						<div class="dbf_head"> 
+							<span class="dbfh_name">{{data.user.name}}</span>
+							<span class="dbfh_type" ng-show="data.type == 'WORKING'">just started working on <span>{{data.source.name}}</span> <i class="fa fa-object-group"></i></span>
+							<span class="dbfh_type" ng-show="data.type == 'WORKED'">worked on <span>{{data.source.name}}</span> <i class="fa fa-object-group"></i></span>
+						</div>
+						<div class="dbf_cont">
+
+							<!-- Project working section -->
+							<span class="dbfc_head f-size-3 "ng-show="data.type == 'WORKING'"></i> {{data.source.name}}</span>
+							<span class=" color8" ng-show="data.type == 'WORKING'">{{data.source.description}}</span>
+
+							<!-- Project worked section -->
+							<span class=" color8" ng-show="data.type == 'WORKED'">{{data.description}}</span>
+
+						</div>
+						<div class="fbfc_cmBtn" ng-hide="data.cmtBoxSector || data.comments.length > 0" ><span ng-click="data.cmtBoxSector = true">Add a comment</span></div>
+						<div class="fbfc_cmBtn" ng-hide="!data.cmtBoxSector || data.comments.length > 0"><span  ng-click="data.cmtBoxSector = false">Hide comment box</span></div>
+						<div class="dbf_comment" ng-class="{'dbf_comment_deleted':cm.deleted}"ng-repeat="cm in data.comments">
+							<div class="dbf_options dbf_options_cm" ng-if="data.user.id == userData.id || cm.user_id == userData.id"> 
+								<div ng-click="feed.removeCommentRequest(data,cm)"><i class="fa fa-close"></i></div>
+							</div>
+							<div class="dbf_date">1 minute ago</div> 
+							<div class="dbfcm_left">
+								<div class="dbfcml_dp"></div>
+							</div>
+							<div class="dbfcm_right">
+								<div class="dbfcmr_name">{{cm.name}}</div>
+								<div class="dbfcmr_desc">{{cm.comment}}</div>
+							</div>
+						</div>
+						<div class="dbf_commentSet"  ng-show="data.cmtBoxSector || data.comments.length > 0">
+							<textarea class="dbfc_input" ng-class="{'dbfc_inputAct':data.cmtBox,'opacity_3':data.commentPosting}" ng-focus="data.cmtBox = true" ng-blur="feed.checkCommentBox(data)" placeholder="Share your comment here..." ng-model="data.comment"></textarea>
+							<button class="dbfc_btn" ng-click="feed.postComment(data)">
+								<span ng-show="!data.commentPosting">POST</span>
+								<span class="rotator rotESmall rotDisplay" ng-class="{'opacity_0':!data.commentPosting}"ng-show="data.commentPosting"></span>
+							</button> 
+						</div>
+					</div>
+				</div>
+
+ <!-- 
+				<table class="table" ng-class="{'tableDeact':reports.rep_add}">
+       				<tr>
+       					<th class="rpt_wh">Name</th>
+       					<th>Description</th>
+       					<th class="rpt_wh">Work Hours</th>
+       				</tr>
+
+       				<tr ng-class="{'rowAct':data.id == reports.selectedRow.id}" ng-click="reports.selectRow(data)" ng-repeat="data in reports.pageData | orderBy : 'created_at':true">
+       					<td>{{data.user.name}} </span> <span class="rpt_none">{{data.dateString}}</span></td>
+       					<td>{{data.description}}</td>
+       					<td class="rpt_wh" >
+       						<span ng-show="data.status=='FINISHED'">{{data.whf | date : 'hh:mm a'}} - {{data.wht| date : 'hh:mm a'}}</span>
+       						<span ng-show="data.status=='WORKING'">Working</span>
+       					</td>
+       				</tr> 
+       			</table>
+	 -->
+			</div>
+			<div class="dbr_popUp dbrpp_1" ng-class="{'dbr_popAct':feed.delConfVar}">
+				{{feed.popup_message}}
+				<div class="dbrps_btn dbrpsb-n" ng-click="feed.removeComment(0)">NO</div>
+				<div class="dbrps_btn dbrpsb-y" ng-click="feed.removeComment(1)">YES</div>
+			</div>
+			<div class="dbr_popUp dbrpp_2" ng-class="{'dbr_popAct':feed.refreshing}"></div>
+			<div class="dbr_right" ng-class="{'dbr_act':feed.rep_add}">
+				<div class="dbrr_posting">
+					<div  ng-show="feed.buttonState == 1">POSTING...</div>
+					<div  ng-show="feed.buttonState == 2">POSTING SUCCESSFUL</div>
+				</div>
+				<div class="dbr_btn" ng-click="feed.rep_add = !feed.rep_add "><div>
+					<i class="fa fa-plus" ng-show="!feed.rep_add"></i>
+					<i class="fa fa-chevron-right" ng-show="feed.rep_add"></i>
+				</div></div>
+				<div class="dbrr_head">ADD REPORT</div>
+				<div class="dbrr_left">
+					<div class="dbrrl_head">DAY OF REPORTING</div>
+					<input type="date" ng-class="{'dbrr_fill':feed.p2}" ng-model="feed.date" class="dbrr_date">
+					<div class="dbrrl_seprator"></div>
+					<div class="dbrrl_head">WORK HOURS</div>
+					<div class="dbrrl_subhead">FROM</div>
+					<div class="dbrrl_subhead">TO</div>
+					<input type="time" ng-model="feed.whf" ng-class="{'dbrr_fill':feed.p3}" class="dbrr_time">
+					<input type="time" ng-model="feed.wht" ng-class="{'dbrr_fill':feed.p4}" class="dbrr_time">
+				</div>
+				<div class="dbrr_right">
+					<div class="dbrrl_head" >DESCRIPTION</div>
+					<textarea class="dbrrr_text" ng-class="{'dbrr_fill':feed.p1}" ng-model="feed.desc"></textarea>
+					<button ng-click="feed.post()">
+						<span ng-show="feed.buttonState == 0">SUBMIT</span>	
+						<div class="rotator rotSmall" ng-show="feed.buttonState == 1"></div>
+						<span ng-show="feed.buttonState == 2">OK</span>	
+					</button>
+				</div>
+			</div>
+			<div class="dbr_btnSet">
+				<!-- <div class="dbrbs_btn" ng-click="feed.removeRow()" ng-class="{'dbrbs_btnDeact':feed.selectedRow.id == 0}" >D</div> -->
+			</div>
+		</div>
+
+
+
+
+		<div class="Dbox db-size-2 db_wPartner" ng-controller="WPartnerCtrl as wp">
+			<div class="db_refresh db_refresh-right" ng-show="wp.working == 0" ng-click="wp.refresh()" ng-class="{'db_refreshing':wp.refreshing}"></div>
+			<div class="db_head">WORK PARTNER</div>
+			<div class="db_cont">
+				<div class="dbwp_left">
+					<div class="dbwpl_start" ng-click="wp.startWork()" ng-class="{'dbwpl_startW':wp.working == 2 || wp.working == 1,'dbwpls_deact':wp.selectedWork.id == 0}">
+						<span ng-show="wp.working == 0">START WORK</span>
+						<span ng-show="wp.working == 2">STOP WORKING</span>
+						<span ng-show="wp.working == 3">SUBMIT</span>
+						<div class="rotator"  ng-show="wp.working == 1"ng-class="{'opacity_0':wp.working == 0 || wp.working == 2|| wp.working == 3}"></div>
+					</div>
+				</div>
+				<div class="dbwp_right" ng-show="wp.working == 0"> 
+					<div class="dbwprwl_head">WORK LIST</div>
+					<div class="dbwpr_workList"  ng-class="{'dbwprwl_deact':wp.refreshing}">
+						<table>
+							<tr>
+								<th>NAME</th>
+								<th>STATUS</th>
+								<th>%</th>
+							</tr>
+
+							<tr class="tr" ng-repeat="data in wp.workList" ng-class="{'dbwprwl_rowAct':data.id == wp.selectedWork.id}" ng-click="wp.selectWork(data)">
+								<td>{{data.name}}</td>
+								<td>{{data.status}}</td>
+								<td>{{data.completed}}%</td>
+							</tr>
+						</table>
+					</div>
+				</div> 
+				<div class="dbwp_right" ng-show="wp.working == 1"><div class="rotator rotDisplay"></div></div>
+				<div class="dbwp_right" ng-show="wp.working == 2">
+					<div class="dbwpr_row">
+						<div class="dbwprr_left">
+							<div class="dbwprrl_top">WORK STARTED</div>
+							<div class="dbwprrl_bottom">THIS SESSION</div>
+						</div>
+						<div class="dbwprr_right">{{wp.workStarted}}</div>
+					</div>
+					<div class="dbwpr_row">
+						<div class="dbwprr_left">
+							<div class="dbwprrl_top">WORK HOURS</div>
+							<div class="dbwprrl_bottom">THIS SESSION</div>
+						</div>
+						<div class="dbwprr_right"><span id="dbwprrr_wh"></span></div>
+					</div>
+				</div>
+				<div class="dbwp_right" ng-show="wp.working == 3">
+					<div class="shm_inp">
+						<textarea type="text" ng-model="wp.desc" ng-class="{'dbwpr_textErr':wp.descErr}"></textarea>
+						<div class="shmi_name" ng-class="{'shmi_nameAct':wp.inp4Act}">DESCRIPTION</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="Dbox db-size-2 db-bg-blue db_wStatus">
+			<div class="db_head">WORK FLOW STATUS</div>
+			<div class="db_cont">
+				<div class="dbws_circle">
+					<img draggable="false" src="images/admin/dashboard/wf_3.png">
+					<div class="dbwsc_hours">9</div>
+					<div class="dbwsc_name">Hrs</div>
+					<div class="dbwsc_heading">HOURS WORKED</div>
+				</div>
+				<div class="dbws_circle">
+					<img draggable="false" src="images/admin/dashboard/wf_1.png">
+					<div class="dbwsc_hours">12</div>
+					<div class="dbwsc_name">Hrs</div>
+					<div class="dbwsc_heading">HOURS LEFT</div>
+				</div>
+				<div class="dbws_circle">
+					<img draggable="false" src="images/admin/dashboard/wf_2.png">
+					<div class="dbwsc_hours">32</div>
+					<div class="dbwsc_name">Hrs</div>
+					<div class="dbwsc_heading">HOURS DUED</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="Dbox db-size-1">
+			<div class="db_head">WORK FLOW</div>
+			<div class="db_cont"></div>
+		</div>
+		<div class="Dbox db-size-1 db_wRatio">
+			<div class="db_head">WORK RATIO</div>
+			<div class="db_cont">
+				<div class="dbwr_circle">
+					<div class="dbwrc_heading">THIS WEEK</div>
+					<img src="images/admin/dashboard/wr_1.png">
+					<div class="dbwrc_name">70%</div>
+				</div>
+			</div>
+		</div>
+		<div class="Dbox db-size-3 db_reports" ng-controller="ReportCtrl as reports">
+			<div class="db_refresh" ng-click="reports.refresh()" ng-class="{'db_refreshing':reports.refreshing}"></div>
+			<div class="db_head"  ng-click="reports.rep_add = false">DAILY REPORTS</div>
+			<div class="db_cont"  ng-click="reports.rep_add = false">
+				<table class="table" ng-class="{'tableDeact':reports.rep_add}">
+       				<tr>
+       					<th class="rpt_wh">Name</th>
+       					<th>Description</th>
+       					<th class="rpt_wh">Work Hours</th>
+       				</tr>
+
+       				<tr ng-class="{'rowAct':data.id == reports.selectedRow.id}" ng-click="reports.selectRow(data)" ng-repeat="data in reports.pageData | orderBy : 'created_at':true">
+       					<td>{{data.user.name}} </span> <span class="rpt_none">{{data.dateString}}</span></td>
+       					<td>{{data.description}}</td>
+       					<td class="rpt_wh" >
+       						<span ng-show="data.status=='FINISHED'">{{data.whf | date : 'hh:mm a'}} - {{data.wht| date : 'hh:mm a'}}</span>
+       						<span ng-show="data.status=='WORKING'">Working</span>
+       					</td>
+       				</tr> 
+       			</table>
+			</div>
+			<div class="dbr_popUp dbrpp_1" ng-class="{'dbr_popAct':reports.delConfVar}">
+				Are you sure to delete the report "{{reports.selectedRow.description}}" ?
+				<div class="dbrps_btn dbrpsb-n" ng-click="reports.delConf(0)">NO</div>
+				<div class="dbrps_btn dbrpsb-y" ng-click="reports.delConf(1)">YES</div>
+			</div>
+			<div class="dbr_popUp dbrpp_2" ng-class="{'dbr_popAct':reports.refreshing}"></div>
+			<div class="dbr_right" ng-class="{'dbr_act':reports.rep_add}">
+				<div class="dbrr_posting">
+					<div  ng-show="reports.buttonState == 1">POSTING...</div>
+					<div  ng-show="reports.buttonState == 2">POSTING SUCCESSFUL</div>
+				</div>
+				<div class="dbr_btn" ng-click="reports.rep_add = !reports.rep_add "><div><i class="">A</i></div></div>
+				<div class="dbrr_head">ADD REPORT</div>
+				<div class="dbrr_left">
+					<div class="dbrrl_head">DAY OF REPORTING</div>
+					<input type="date" ng-class="{'dbrr_fill':reports.p2}" ng-model="reports.date" class="dbrr_date">
+					<div class="dbrrl_seprator"></div>
+					<div class="dbrrl_head">WORK HOURS</div>
+					<div class="dbrrl_subhead">FROM</div>
+					<div class="dbrrl_subhead">TO</div>
+					<input type="time" ng-model="reports.whf" ng-class="{'dbrr_fill':reports.p3}" class="dbrr_time">
+					<input type="time" ng-model="reports.wht" ng-class="{'dbrr_fill':reports.p4}" class="dbrr_time">
+				</div>
+				<div class="dbrr_right">
+					<div class="dbrrl_head" >DESCRIPTION</div>
+					<textarea class="dbrrr_text" ng-class="{'dbrr_fill':reports.p1}" ng-model="reports.desc"></textarea>
+					<button ng-click="reports.post()">
+						<span ng-show="reports.buttonState == 0">SUBMIT</span>	
+						<div class="rotator rotSmall" ng-show="reports.buttonState == 1"></div>
+						<span ng-show="reports.buttonState == 2">OK</span>	
+					</button>
+				</div>
+			</div>
+			<div class="dbr_btnSet">
+				<div class="dbrbs_btn" ng-click="reports.removeRow()" ng-class="{'dbrbs_btnDeact':reports.selectedRow.id == 0}" >D</div>
+			</div>
+		</div>

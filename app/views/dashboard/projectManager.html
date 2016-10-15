@@ -1,0 +1,385 @@
+	<!-- <div class="Dbpage"> -->
+		<div class="Dbpage db_pm" ng-controller="ProjectManagerCtrl as pm">
+			<div class="db_pro" ng-show="pm.saveSC1B_API.saving" style="top:0;width:{{pm.saveSC1B_API.progress}}%"></div> 
+			<div class="db_cont">
+				<!-- <div class="dbpml_img"><img src="images/admin/dashboard/pm/bg.jpg"></div> -->
+				<div class="dbpm_landing " ng-class="{'dbpm_landing_inactive':pm.projectSelected}">
+					<span class="rotator rotDisplay dbpm_lrot" ng-if="pm.landingBusy"></span>
+					<div class="dbpml_left" ng-class="{'opacity_3':pm.landingBusy ,'opacity_3':pm.projectSelected}">
+						<div class="dbpml_head">Recent Projects</div>
+						<div class="dbpml_plist" ng-click="pm.selectProject(data)" ng ng-repeat="data in pm.workList">
+							{{data.name}} 
+							<span ng-hide="data.completed"> - [ {{data.progress}}% ]</span>
+							<span ng-repeat="u in data.p_users" ng-if="pm.user.user_id == u.id">
+								<i ng-show="u.level == 0" class="fa fa-lock"></i>
+								<i ng-show="u.level == 1" class="fa fa-unlock-alt"></i>
+								<i ng-show="u.level == 2" class="fa fa-unlock"></i>
+							</span> 
+							<span ng-show="data.completed" ><i class="fa fa-check"></i></span>
+						</div>
+					</div>
+					<div class="dbpml_right" ng-class="{'opacity_3':pm.landingBusy,'opacity_3':pm.projectSelected}">
+						<div class="dbpml_head">Create a Project</div>
+						<input ng-keyup="pm.checkFeild();"type="text" ng-model="pm.proDetailsC.name" placeholder="Name" />
+						<textarea ng-keyup="pm.checkFeild();" ng-keydown="pm.prevTab($event);" ng-model="pm.proDetailsC.description" placeholder="About the Project"></textarea>
+						<div class="dbpmlr_catList">
+							<div class="dbpmlr_cat" ng-click="pm.proDetailsC.platform = 'WEB'; pm.checkFeild();" ng-class="{'dbpmlr_cat_active':pm.proDetailsC.platform == 'WEB'}">WEB</div>
+							<div class="dbpmlr_cat" ng-click="pm.proDetailsC.platform = 'JAVA'; pm.checkFeild();" ng-class="{'dbpmlr_cat_active':pm.proDetailsC.platform == 'JAVA'}">JAVA</div>
+							<div class="dbpmlr_cat" ng-click="pm.proDetailsC.platform = 'ANDROID'; pm.checkFeild();" ng-class="{'dbpmlr_cat_active':pm.proDetailsC.platform == 'ANDROID'}">ANDROID</div>
+							<div ng-click="pm.createProject();" class="dbpmlr_btn" ng-class="{'dbpmlr_btn_inact':!pm.allFilled}">
+								<span ng-if="!pm.creatingProject">Create</span>
+								<span class="rotator rotSmall rotDisplay" ng-class="{'opacity_0':!data.creatingProject}" ng-if="pm.creatingProject"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dbpm_proSettings" ng-class="{'inactive':pm.scene == 2}" >
+					<!-- <div class="dbpml_img"><img src="images/admin/dashboard/pm/bg.jpg"></div> -->
+					<div class="dbpmp_toolbar" ng-class="{'dbpmp_toolbar_active':pm.projectSelected}">
+						<div class="dbpmpt_name">{{pm.projectDetails.name}} </div>
+						<div class="dbpmpt_closeBtn" ng-click="pm.closeProject();"><i class="fa fa-close"></i></div>
+					</div>
+					<div class="dbpmlp_left" ng-class="{'active':pm.projectSelected}">
+						<div  class="dbpmlpl_btn orange" ng-click="pm.changeScene(3)"><i class="fa fa-line-chart"></i></div>
+						<div  class="dbpmlpl_btn asphalt" ng-click="pm.changeScene(2)"><i class="fa fa-edit"></i></div>
+						<div  class="dbpmlpl_btn"  ng-click="pm.projectSettings();">
+							<i ng-show="pm.scene1 == 1" class="fa fa-gears"></i>
+							<i ng-show="pm.scene1 == 2" class="fa fa-mail-reply"></i>
+						</div>
+						<div class="dbpmlpl_btn red"  ng-click="pm.closeProject();"><i class="fa fa-close"></i></div>
+					</div>
+					<div class="dbpmlp_pop" ng-show="pm.scene1NotAuthMess && pm.scene == 1"><span>Not Autherised</span></div>
+					<div class="dbpmlp_right" ng-class="{'active':pm.projectSelected}">
+						<span class="rotator rotDisplay"  ng-class="{'opacity_0':!pm.saveSC1B_API.saving}"  ng-show="pm.saveSC1B_API.saving"></span>
+						<div class="dbpmlpr_left" ng-class="{'inactive':pm.scene1 == 2,'opacity_3':pm.saveSC1B_API.saving}">
+							<div class="dbpmlpr_head">Project Completion [%]</div>
+							<div round-progress  
+							    max="100"
+							    current="pm.projectData.progress"
+							    color="#64c851"
+							    bgcolor="#eaeaea"
+							    radius="100"
+							    stroke="10"
+							    semi="false"
+							    rounded="true"
+							    clockwise="true"
+							    responsive="false"
+							    duration="{{pm.mainProDur}}"
+							    animation="easeOutQuint"
+							    class="dbpmlprl_round"
+							    animation-delay="{{pm.mainProAD}}">
+							</div>
+							<div class="dbpmlprl_pro">{{pm.pro_progress}}</div>
+							<div class="dbpmlpr_head">Total Duaration [h]</div>
+							<div class="dbpmlprl_time">{{pm.projectData.duration}}</div>
+						</div>
+						<div class="dbpmlpr_right" ng-class="{'inactive':pm.scene1 == 2,'opacity_3':pm.saveSC1B_API.saving}">
+							<table> 
+								<tr><td>Total Tasks</td><td>{{pm.projectData.task_count}}</td></tr> 
+								<tr><td>Completed Tasks</td><td>{{pm.projectData.tasks_completed}} <span class="opacity_3">/ {{pm.projectData.task_count}}</span></td></tr> 
+								<tr><td>Your Tasks</td><td>{{pm.projectData.t_by_user}}</td></tr> 
+								<tr><td>Completed Tasks By You</td><td>{{pm.projectData.tc_by_user}} <span class="opacity_3">/ {{pm.projectData.t_by_user}}</span></td></tr> 
+								<tr><td>Project Started</td><td>{{pm.projectDetails.start_date | date : 'dd MMM yyyy'}}</td></tr>
+								<tr><td>Deadline</td><td>{{pm.projectDetails.deadline | date : 'dd MMM yyyy'}}</td></tr>
+							</table>
+							<div  class="dbpmlpl_disc">{{pm.projectDetails.description}}</div> 
+						</div>
+						<div class="dbpmlpr_bottom" ng-class="{'active':pm.scene1 == 2,'inactive':!pm.projectSelected}" >
+							<div class="dbpmlprbl_set">
+								<div class="dbpmlprb_list_head">Authentication</div>
+								<div class="dbpmlprb_list">
+									<div class="dbpmlprbl_item" ng-repeat="user in pm.users" ng-if="pm.user.id != user.id" ng-hide="user.id == pm.projectDetails.owner.user_id" >
+										<div class="dbpmlprbli_name">{{user.name}}</div>
+										<div class="dbpmlprbli_prio" ng-click="pm.SC1B_userL(user,2)" ng-class="{'active':user.level == 2}"><span class="fa fa-unlock"></span></div>
+										<div class="dbpmlprbli_prio" ng-click="pm.SC1B_userL(user,1)" ng-class="{'active':user.level == 1}"><span class="fa fa-unlock-alt"></span></div>
+										<div class="dbpmlprbli_prio" ng-click="pm.SC1B_userL(user,0)" ng-class="{'active':user.level == 0}"><span class="fa fa-lock"></span></div>
+									</div> 
+								</div>
+							</div>
+							<div class="dbpmlprb_right" ng-class="{'inactive':pm.SC1B_delReq}">
+								<div class="dbpmlprbr_bag">
+									<div class="dbpmlprbrb_head">Date Started</div>
+									<div class="dbpmlprbrb_head">Deadline</div>
+									<div class="dbpmlprbrb_head">Date Completed</div>
+									<input type="date" ng-disabled="pm.saveSC1B_API.buzy || pm.user.level < 2" ng-click="pm.SC1B_ch_date(2)" ng-model="pm.projectDetails.start_date" class="dbpmlprbrb_date">
+									<input type="date" ng-disabled="pm.saveSC1B_API.buzy || pm.user.level < 2" ng-click="pm.SC1B_ch_date(2)" ng-model="pm.projectDetails.deadline" class="dbpmlprbrb_date">
+									<input type="date" ng-disabled="pm.saveSC1B_API.buzy || pm.user.level < 3" ng-click="pm.SC1B_ch_date(3)" ng-model="pm.projectDetails.finish_date" class="dbpmlprbrb_date">
+								</div>
+								<div class="dbpmlprbr_bag">
+									<div class="dbpmlprbrb_h">Mark Project as Completed</div> 
+									<div class="dbpmlprbrb_b">
+										<div class="bg_checkbox" ng-click="pm.SC1B_comChange()"><i ng-show="pm.projectDetails.completed" class="fa fa-check"></i></div>
+									</div>
+									<div class="dbpmlprbrb_c">If you mark it as completed. Other participants can no longer work on this project</div>
+									<div class="dbpmlprbrb_h">DELETE PROJECT</div>
+									<!-- <div class="dbpmlprbrb_b">
+										<div class="bg_checkbox" ng-click="pm.SC1B_softDel =! pm.SC1B_softDel"><i ng-show="pm.SC1B_softDel" class="fa fa-check"></i></div>
+									</div> -->
+									<div class="dbpmlprbrb_c" style="margin-left: 20px"  ng-if="pm.user.level > 2">If you delete this Project. You can't Recover it.</div>
+									<div class="dbpmlprbrb_c" style="margin-left: 20px"  ng-if="pm.user.level < 3">You can't delete the project. Only project owner can delete the project.</div>
+									<div class="dbpmlprbrb_btn" ng-if="pm.user.level > 2" ng-click="pm.SC1B_delReq = true">Delete</div>
+								</div>
+								<!-- <div class="dbpmlprbr_bag">
+									asd
+								</div> -->
+								<div class="dbpmlprb_save" ng-if="pm.user.level > 2" ng-click="pm.saveSC1B()">
+									<span >Save</span>
+									<!-- <span class="rotator rotSmall rotDisplay" ng-class="{'opacity_0':!data.pm.saveSC1B_API.saving}" ng-if="pm.saveSC1B_API.saving"></span> -->
+								</div>
+								<div class="dbpmlprb_save cancel" ng-if="pm.user.level > 2" ng-click="pm.cancelSC1B()">Cancel</div>
+							</div>
+							<div class="dbpmlprb_bottom">
+								<div class="dbpmlprbb_cont">Do you really want to delete the project? If you delete this project, You cant recover it.</div> 
+								<div class="dbpmlprbb_btns">
+									<div class="dbpmlprb_save delete" ng-if="pm.user.level > 2" ng-click="pm.deleteProject()">Delete</div>
+									<div class="dbpmlprb_save" ng-click="pm.SC1B_delReq = false">Cancel</div>
+								</div> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dbpm_proSpace" ng-class="{'active':pm.scene == 2}">
+					<div class="dbpmp_toolbar">
+						<div class="dbpmpt_name">{{pm.projectDetails.name}} </div>
+						<div class="dbpmpt_path">
+							<span ng-click="pm.pathNavigate(0)" class="dbpmptp_item">root</span>
+							<span ng-repeat="path in pm.navPathNameArr" class="dbpmptp_item" ng-click="pm.pathNavigate($index+1)">/{{path.name}}</span>
+						</div>
+						<div class="dbpmpt_closeBtn" ng-click="pm.closeEditWindow()"><i class="fa fa-close"></i></div>
+						<div class="dbpmpt_closeBtn" ng-if="!pm.navTaskCreate" ng-click="pm.saveNavItem();"><i  ng-show="!pm.navItem.saving" class="fa fa-save"></i> <span class="rotator rotESmall rotDisplay"  ng-class="{'opacity_0':!pm.navItem.saving}"  ng-show="pm.navItem.saving"></span> </div>
+					</div>
+					<div class="dbpmp_navigator">
+						<div class="dbpmpn_toolbar">
+							<div class="dbpmpnt_btn" ng-hide="pm.scene2 == 2" ng-click="pm.createTaskbag()"><i class="fa fa-folder-open"></i></div>
+							<div class="dbpmpnt_btn" ng-hide="pm.scene2 == 2" ng-click="pm.createTask()"><i class="fa fa-file-text"></i></div>
+							<div class="dbpmpnt_btn" ng-hide="pm.scene2 == 2" ng-class="{'disable':pm.navItem.id == undefined }" ng-click="pm.deleteReq()"><i class="fa fa-trash"></i></div>
+							<div class="dbpmpnt_btn float-r" ng-class="{'disable':pm.navPath.length <= 0 }" ng-click="pm.navBack()"><i class="fa fa-arrow-left"></i></div>
+						</div>
+						<div class="dbpmpn_content" ng-class="{'opacity_4':pm.taskAPIBusy}">
+							<!-- main content -->
+							<div class="dbpmpn_taskbag" ng-dblclick="pm.selectNavData(data)" ng-class="{'active':pm.isSelected(data)}" ng-click="pm.navItemClick(data)" ng-repeat="data in pm.navData.taskbags">
+								<div class="dbpmpnt_icon"><i class="fa fa-folder-open-o" ng-class="{'dbpmpnti_red':data.time_left == 0}" ></i></div>
+								<div class="dbpmpnt_name">
+									{{data.name}}
+									<div class="dbpmpntn_save" ng-show="data.saving" tool-tip="Not save">
+										<span class="rotator rotESmall rotDisplay"></span>
+									</div> 
+									<div class="dbpmpntn_save -g" ng-show="data.assTo == pm.user.id" tool-tip="Not save">
+										<span class="fa fa-user"></span>
+									</div>
+								</div>
+							</div>
+							<div class="dbpmpn_task" ng-class="{'active':pm.isSelected(data)}" ng-mousedown="pm.navItemMD(data)" ng-click="pm.navItemClick(data)" ng-repeat="data in pm.navData.tasks">
+								<div class="dbpmpnt_icon"><i class="fa fa-file-text-o" ng-class="{'dbpmpnti_red':data.time_left.time_left == 0}"></i></div>
+								<div class="dbpmpnt_name">
+									{{data.name}}
+									<div class="dbpmpntn_save" ng-show="data.saving">
+										<span class="rotator rotESmall rotDisplay"></span>
+									</div> 
+									<div class="dbpmpntn_save -g" ng-show="data.assigned_to == pm.user.id" tool-tip="Not save">
+										<span class="fa fa-user"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="dbpmp_settings" ng-if="pm.scene2 == 1"> <!-- Edit View -->
+						<!-- message box -->
+						<div class="dbpm_messageBox" ng-if="pm.message.show">
+							<div class="dbpmmb_cont">{{pm.message.description}}</div>
+							<span class="dbpmmb_btn y" ng-if="pm.message.buttons.yes" ng-click="pm.message.yes(1)">YES</span>
+							<span class="dbpmmb_btn n" ng-if="pm.message.buttons.no" ng-click="pm.message.no(0)">NO</span>
+							<span class="dbpmmb_btn n" ng-if="pm.message.buttons.cancel" ng-click="pm.message.cancel(-1)">CANCEL</span>
+						</div>
+						<span class="rotator rotDisplay" ng-class="{'opacity_0':!pm.taskAPIBusy}"ng-show="pm.taskAPIBusy"></span>
+						<!-- content -->
+						<div class="dbpmps_tbag" ng-if="pm.navItem.type == 'taskbag'" >
+							<input 
+								ng-class="{'opacity_4':pm.taskAPIBusy,'dbpmpst_head-active':pm.editTBName}" 
+								class="dbpmpst_head" 
+								ng-dblclick="pm.fieldClick(3,pm.navItem.name)" 
+								ng-keyup="pm.fieldEdit($event,3)" 
+								ng-blur="pm.editTBName = false" 
+								ng-readonly="!pm.editTBName" 
+								ng-model="pm.navItem.name"/>
+							<div  ng-if="!pm.navTaskCreate" class="dbpmpst_cont"><span>{{pm.navItem.name}}</span> TaskBag has <span>{{pm.navItem.hasTasks}}</span> Tasks and <span>{{pm.navItem.hasTaskbags}}</span> Task bags</div>
+
+							<div class="dbpmpst_create" ng-if="pm.navTaskCreate" ng-click="pm.createTaskSubmit()">Create</div>
+							<div class="dbpmpst_create cancel" ng-if="pm.navTaskCreate" ng-click="pm.createTaskCancel()">Cancel</div> 
+
+						</div>
+						<div class="dbpmps_task" ng-if="pm.navItem.type == 'task'" ng-class="{'opacity_4':pm.taskAPIBusy}">
+							<input 
+								class="dbpmpst_name" 
+								ng-model="pm.navItem.name" 
+								ng-class="{'dbpmpstn_edit':pm.editName}" 
+								ng-blur="pm.editName=false" 
+								ng-keyup="pm.fieldEdit($event,1)" 
+								ng-dblclick="pm.fieldClick(1,pm.navItem.name)" 
+								ng-readonly="!pm.editName"> 
+							<!-- <textarea 
+								class="dbpmpst_desc" 
+								ng-model="pm.navItem.description" 
+								ng-class="{'dbpmpstn_edit':pm.editDesc}" 
+								ng-blur="pm.editDesc=false" 
+								ng-keydown="pm.shortkey($event)" 
+								ng-keyup="pm.fieldEdit($event,2)" 
+								ng-dblclick="pm.fieldClick(2,pm.navItem.description)" 
+								ng-readonly="!pm.editDesc"></textarea> -->
+							<!-- <div class="dbpmpst_desc">{{pm.navItem.description}}</div> -->
+							<div class="dbpmpst_itemSet blockme">
+								<div class="dbpmpst_item blockme">
+									<div class="dbpmpsti_head blockme">Duration</div>
+									<div class="dbpmpsti_slider">
+										<rzslider rz-slider-model="pm.navItem.duration" rz-slider-options="pm.slider.options"></rzslider>
+									</div> 
+								</div>
+								<div class="dbpmpst_item blockme">
+									<div class="dbpmpsti_head blockme">Priority</div>
+									<div class="dbpmpsti_slider">
+										<rzslider rz-slider-model="pm.navItem.priority" rz-slider-options="pm.priority.options"></rzslider>
+									</div> 
+								</div>
+								<div class="dbpmpst_item blockme">
+									<div class="dbpmpsti_head blockme">Progress</div>
+									<div class="dbpmpsti_slider">
+										<rzslider rz-slider-model="pm.navItem.progress" rz-slider-options="pm.progress.options"></rzslider>
+									</div> 
+								</div>
+							</div>
+							<div class="dbpmpst_itemSet block">
+								<div class="dbpmpsti_sd">SHOW DOCS</div>
+								<div class="dbpmpsti_sd sd_date"></div>
+							</div> 
+							<div class="dbpmpst_itemSet block">
+								<div class="dbpmpsti_ap"></div>
+							</div> 
+							<div class="dbpmpst_itemSet is_half block">
+								<div class="dbpmpsti_br"></div>
+							</div> 
+							<div class="dbpmpst_itemSet is_half block">
+								<div class="dbpmpsti_cp"></div>
+							</div>
+						</div>
+						<div class="dbpmps_task2" ng-if="pm.navItem.type == 'task'">
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Assign to</div>
+							<!-- <select class="dbpmpst_select" ng-model="pm.navItem.assigned_to">
+								<option value="{{users.id}}"ng-selected="pm.navItem.assigned_to == users.id" selected="selected" ng-repeat="users in pm.users"> {{users.id + ' = ' + pm.navItem.assigned_to}}</option>
+							</select> -->
+							<div class="dbpmpst_select" ng-class="{'opacity_4':pm.taskAPIBusy,'disable':pm.scene2 == 2}">
+								<input class="dbpmpsts_dis" id="mSel" ng-blur="pm.mSelBlur()" ng-model="pm.mSelValue" ng-focus="pm.mSelFocus()" readonly><div class="dbpmpsts_darrow"><i class="fa fa-arrow-down"></i></div>
+								<div class="dbpmpsts_optionPane" ng-show="pm.mSel">
+									<div class="dbpmpstso_option" ng-mousedown="pm.navItem.assigned_to = user.id" ng-repeat="user in pm.users">{{user.name}}</div>
+								</div>
+							</div> 
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Completed</div>
+							<div class="dbpmpst_prio" ng-class="{'opacity_4':pm.taskAPIBusy}">
+								<div class="bg_checkbox" ng-click="pm.toggleCompleted();"><i ng-show="pm.navItem.completed == 1" class="fa fa-check"></i></div>
+							</div> 
+							<div class="dbpmpst_create" ng-if="pm.navTaskCreate"  ng-click="pm.createTaskSubmit()">Create</div>
+							<div class="dbpmpst_msg"ng-if="pm.scene2 == 2 && pm.navItem.assigned_to != pm.user.id">You can't work on this task, because its assigned to {{pm.mSelValue}}.</div> 
+							<div class="dbpmpst_create" ng-if="pm.scene2 == 2 && pm.navItem.assigned_to == pm.user.id"  ng-click="pm.saveNavItem()">
+								<span ng-show="!pm.navItem.saving">Save</span>
+								<span class="rotator rotSmall" ng-show="pm.navItem.saving"></span>
+							</div> 
+							<div class="dbpmpst_create cancel" ng-if="pm.navTaskCreate"  ng-click="pm.createTaskCancel()">Cancel</div> 
+						</div>
+
+
+
+
+
+
+<!-- 
+
+
+
+						<div class="dbpm_messageBox" ng-if="pm.message.show">
+							<div class="dbpmmb_cont">{{pm.message.description}}</div>
+							<span class="dbpmmb_btn y" ng-if="pm.message.buttons.yes" ng-click="pm.message.yes(1)">YES</span>
+							<span class="dbpmmb_btn n" ng-if="pm.message.buttons.no" ng-click="pm.message.no(0)">NO</span>
+							<span class="dbpmmb_btn n" ng-if="pm.message.buttons.cancel" ng-click="pm.message.cancel(-1)">CANCEL</span>
+						</div>
+						<span class="rotator rotDisplay" ng-class="{'opacity_0':!pm.taskAPIBusy}"ng-show="pm.taskAPIBusy"></span> 
+						<div class="dbpmps_tbag" ng-if="pm.navItem.type == 'taskbag'" >
+							<input 
+								ng-class="{'opacity_4':pm.taskAPIBusy,'dbpmpst_head-active':pm.editTBName}" 
+								class="dbpmpst_head" 
+								ng-dblclick="pm.fieldClick(3,pm.navItem.name)" 
+								ng-keyup="pm.fieldEdit($event,3)" 
+								ng-blur="pm.editTBName = false" 
+								ng-readonly="!pm.editTBName" 
+								ng-model="pm.navItem.name"/>
+							<div  ng-if="!pm.navTaskCreate" class="dbpmpst_cont"><span>{{pm.navItem.name}}</span> TaskBag has <span>{{pm.navItem.hasTasks}}</span> Tasks and <span>{{pm.navItem.hasTaskbags}}</span> Task bags</div>
+
+							<div class="dbpmpst_create" ng-if="pm.navTaskCreate" ng-click="pm.createTaskSubmit()">Create</div>
+							<div class="dbpmpst_create cancel" ng-if="pm.navTaskCreate" ng-click="pm.createTaskCancel()">Cancel</div> 
+
+						</div>
+						<div class="dbpmps_task" ng-if="pm.navItem.type == 'task'" ng-class="{'opacity_4':pm.taskAPIBusy}">
+							<input 
+								class="dbpmpst_name" 
+								ng-model="pm.navItem.name" 
+								ng-class="{'dbpmpstn_edit':pm.editName}" 
+								ng-blur="pm.editName=false" 
+								ng-keyup="pm.fieldEdit($event,1)" 
+								ng-dblclick="pm.fieldClick(1,pm.navItem.name)" 
+								ng-readonly="!pm.editName"> 
+							<textarea 
+								class="dbpmpst_desc" 
+								ng-model="pm.navItem.description" 
+								ng-class="{'dbpmpstn_edit':pm.editDesc}" 
+								ng-blur="pm.editDesc=false" 
+								ng-keydown="pm.shortkey($event)" 
+								ng-keyup="pm.fieldEdit($event,2)" 
+								ng-dblclick="pm.fieldClick(2,pm.navItem.description)" 
+								ng-readonly="!pm.editDesc"></textarea> 
+							<div class="dbpmpst_heading">Duration</div>
+							<div class="dbpmpst_slider">
+								<rzslider rz-slider-model="pm.navItem.duration" rz-slider-options="pm.slider.options"></rzslider>
+							</div>
+							<div class="dbpmpst_heading dbpmpst_hdate">Start Date</div>
+							<div class="dbpmpst_heading dbpmpst_hdate">Deadline</div>
+							<input type="date" ng-class="{'dbrr_fill':feed.p2}" ng-readonly="pm.scene2 == 2 || pm.taskAPIBusy" ng-model="pm.navItem.start_date" class="dbpmpst_date">
+							<input type="date" ng-class="{'dbrr_fill':feed.p2}" ng-readonly="pm.scene2 == 2 || pm.taskAPIBusy"  ng-model="pm.navItem.finish_date" class="dbpmpst_date">
+						</div>
+						<div class="dbpmps_task2" ng-if="pm.navItem.type == 'task'">
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Assign to</div>
+							<div class="dbpmpst_select" ng-class="{'opacity_4':pm.taskAPIBusy,'disable':pm.scene2 == 2}">
+								<input class="dbpmpsts_dis" id="mSel" ng-blur="pm.mSelBlur()" ng-model="pm.mSelValue" ng-focus="pm.mSelFocus()" readonly><div class="dbpmpsts_darrow"><i class="fa fa-arrow-down"></i></div>
+								<div class="dbpmpsts_optionPane" ng-show="pm.mSel">
+									<div class="dbpmpstso_option" ng-mousedown="pm.navItem.assigned_to = user.id" ng-repeat="user in pm.users">{{user.name}}</div>
+								</div>
+							</div>
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Priority</div>
+							<div class="dbpmpst_prio" ng-class="{'opacity_4':pm.taskAPIBusy}">
+								<rzslider rz-slider-model="pm.navItem.priority" rz-slider-options="pm.priority.options"></rzslider>
+							</div>
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Progress</div> 
+							<div class="dbpmpst_prio" ng-if="!pm.navItem.completed" ng-class="{'opacity_4':pm.taskAPIBusy}">
+								<rzslider rz-slider-model="pm.navItem.progress" rz-slider-options="pm.progress.options"></rzslider>
+							</div>   
+							<div class="dbpmpst_prio" ng-if="pm.navItem.completed"  ng-class="{'opacity_4':pm.taskAPIBusy}">
+								<rzslider rz-slider-model="100" rz-slider-options="pm.progressC.options"></rzslider>
+							</div> 
+							<div class="dbpmpst_heading dbpmpst_hsel" ng-class="{'opacity_4':pm.taskAPIBusy}">Completed</div>
+							<div class="dbpmpst_prio" ng-class="{'opacity_4':pm.taskAPIBusy}">
+								<div class="bg_checkbox" ng-click="pm.toggleCompleted();"><i ng-show="pm.navItem.completed == 1" class="fa fa-check"></i></div>
+							</div> 
+							<div class="dbpmpst_create" ng-if="pm.navTaskCreate"  ng-click="pm.createTaskSubmit()">Create</div>
+							<div class="dbpmpst_msg"ng-if="pm.scene2 == 2 && pm.navItem.assigned_to != pm.user.id">You can't work on this task, because its assigned to {{pm.mSelValue}}.</div> 
+							<div class="dbpmpst_create" ng-if="pm.scene2 == 2 && pm.navItem.assigned_to == pm.user.id"  ng-click="pm.saveNavItem()">
+								<span ng-show="!pm.navItem.saving">Save</span>
+								<span class="rotator rotSmall" ng-show="pm.navItem.saving"></span>
+							</div> 
+							<div class="dbpmpst_create cancel" ng-if="pm.navTaskCreate"  ng-click="pm.createTaskCancel()">Cancel</div> 
+						</div> -->
+					</div>
+					<div class="dbpmp_settings" ng-if="pm.scene2 == 2"> <!-- Work View --> 
+						yea its working
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- </div> -->
+

@@ -1,0 +1,44 @@
+<div class="basePage profile_page blockme">
+	<div class="boxx blockin"> 
+		<div class="pp_form">
+			<div class="ppf_head">Basic Info</div>
+			<table>
+				<tr>
+					<td>Name</td>
+					<td><input type="text" ng-keyup="pro.checkField(1)"placeholder="Name" ng-model="pro.user.name"/></td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td><input  type="text" ng-keyup="pro.checkField(1)" placeholder="username" ng-model="pro.user.email"/></td>
+				</tr>
+				<tr>
+					<td>Position</td>
+					<td><input ng-keydown="pro.preventTab($event)"  ng-keyup="pro.checkField(1)" type="text" placeholder="Position" ng-model="pro.user.position"/></td>
+				</tr>
+			</table> 
+			<div class="ppf_btn" ng-click="pro.saveF1();" ng-class="{'disable':pro.form1Active}"> 
+				<span ng-hide="pro.form1Saving">Save</span>
+				<span class="rotator rotSmall rotDisplay" ng-class="{'opacity_0':!pro.form1Saving}" ng-show="pro.form1Saving"></span>
+			</div>
+		</div>
+
+		<div class="pp_form pass">
+			<div class="ppf_head ">Change Password</div>
+			<table>
+				<tr> 
+					<td><input type="password"  ng-keyup="pro.checkField(2)"  placeholder="Old Password" ng-model="pro.oldPass"/></td>
+				</tr>
+				<tr> 
+					<td><input  type="password"  ng-keyup="pro.checkField(2)"  placeholder="New Password" ng-model="pro.newPass"/></td>
+				</tr>
+				<tr> 
+					<td><input ng-keydown="pro.preventTab($event)"  ng-keyup="pro.checkField(2)" type="password" placeholder="Confirm Password" ng-model="pro.confPass"/></td>
+				</tr>
+			</table> 
+			<div class="ppf_btn"ng-class="{'disable':pro.form2Active}" ng-click="pro.saveF2()">
+				<span ng-hide="pro.form2Saving">Save</span>
+				<span class="rotator rotSmall rotDisplay" ng-show="pro.form2Saving"></span>
+			</div>
+		</div>
+	</div>
+</div>

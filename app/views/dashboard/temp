@@ -1,0 +1,7 @@
+start date 
+
+
+							<div class="dbpmpst_heading dbpmpst_hdate">Start Date</div>
+							<div class="dbpmpst_heading dbpmpst_hdate">Deadline</div>
+							<input type="date" ng-class="{'dbrr_fill':feed.p2}" ng-readonly="pm.scene2 == 2 || pm.taskAPIBusy" ng-model="pm.navItem.start_date" class="dbpmpst_date">
+							<input type="date" ng-class="{'dbrr_fill':feed.p2}" ng-readonly="pm.scene2 == 2 || pm.taskAPIBusy"  ng-model="pm.navItem.finish_date" class="dbpmpst_date">

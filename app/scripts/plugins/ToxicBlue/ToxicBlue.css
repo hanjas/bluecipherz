@@ -1,0 +1,298 @@
+
+
+.bgrid{
+    display:block;
+    float:left;
+}
+
+/*
+____________________________________________________________________________________________________________________________________________
+|                                                                                                                                           |
+|                                                               CSS NORMALIZING                                                             |
+|___________________________________________________________________________________________________________________________________________|
+*/
+html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}
+body {margin: 0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}
+audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}
+audio:not([controls]) {display: none;height: 0;}
+[hidden],template {display: none;}
+a {background-color: transparent;}
+a:active,a:hover {outline: 0;}
+abbr[title] {border-bottom: 1px dotted;}
+b,strong {font-weight: bold;}
+dfn {font-style: italic;}
+h1 {font-size: 2em;margin: 0.67em 0;}
+mark {background: #ff0;color: #000;}
+small {font-size: 80%;}
+sub,sup {font-size: 75%;line-height: 0;position: relative;vertical-align: baseline;}
+sup {top: -0.5em;}
+sub {bottom: -0.25em;}
+img {border: 0;}
+svg:not(:root) {overflow: hidden;}
+figure {margin: 1em 40px;}
+hr {-moz-box-sizing: content-box;box-sizing: content-box;height: 0;}
+pre {overflow: auto;}
+code,kbd,pre,samp {font-family: monospace, monospace;font-size: 1em;}
+button,input,optgroup,select,textarea {color: inherit; /* 1 */font: inherit; /* 2 */margin: 0; /* 3 */}
+button {overflow: visible;}
+button,select {text-transform: none;}
+button,html input[type="button"], /* 1 */input[type="reset"],input[type="submit"] {-webkit-appearance: button; /* 2 */cursor: pointer; /* 3 */}
+button[disabled],
+html input[disabled] {cursor: default;}
+button::-moz-focus-inner,input::-moz-focus-inner {border: 0;padding: 0;}
+input {line-height: normal;}
+input[type="checkbox"],input[type="radio"] {box-sizing: border-box; /* 1 */padding: 0; /* 2 */}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {height: auto;}
+input[type="search"] {-webkit-appearance: textfield; /* 1 */-moz-box-sizing: content-box;-webkit-box-sizing: content-box; /* 2 */box-sizing: content-box;}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {-webkit-appearance: none;}
+fieldset {border: 1px solid #c0c0c0;margin: 0 2px;padding: 0.35em 0.625em 0.75em;}
+legend {border: 0; /* 1 */padding: 0; /* 2 */}
+textarea {overflow: auto;}
+optgroup {font-weight: bold;}
+table {border-collapse: collapse; border-spacing: 0;}
+td,th {padding: 0;}
+
+a,a:focus,a:visited,a:link{color:#3e98cc; text-decoration:none;}
+a:active{color:#005382; text-decoration:none;}
+a:hover{color:#50aee4; text-decoration:none;}
+
+/*
+____________________________________________________________________________________________________________________________________________
+|                                                                                                                                           |
+|                                                            EXTRA SETTINGS                                                                 |
+|___________________________________________________________________________________________________________________________________________|
+*/
+
+div,span{ 
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box; 
+}
+.block,
+.block div,
+.blockin div,
+.blockme{
+    float: left;
+}
+/*
+____________________________________________________________________________________________________________________________________________
+|                                                                                                                                           |
+|                                                           BLUE GRID LAYERS                                                                |
+|___________________________________________________________________________________________________________________________________________|
+*/
+.b-p-rel{position:relative;}
+.b-p-abs{position:absolute;}
+.b-p-fix{position:fixed;}
+
+.b-layer-1 {z-index: 1 }
+.b-layer-2 {z-index: 2 }
+.b-layer-3 {z-index: 3 }
+.b-layer-4 {z-index: 4 }
+.b-layer-5 {z-index: 5 }
+.b-layer-6 {z-index: 6 }
+.b-layer-7 {z-index: 7 }
+.b-layer-8 {z-index: 8 }
+.b-layer-9 {z-index: 9 }
+.b-layer-10{z-index: 10}
+.b-layer-11{z-index: 11}
+.b-layer-12{z-index: 12}
+.b-layer-13{z-index: 13}
+.b-layer-14{z-index: 14}
+.b-layer-15{z-index: 15}
+.b-layer-16{z-index: 16}
+.b-layer-17{z-index: 17}
+.b-layer-18{z-index: 18}
+.b-layer-19{z-index: 19}
+.b-layer-20{z-index: 20}
+
+/*
+____________________________________________________________________________________________________________________________________________
+|                                                                                                                                           |
+|                                                               BOXES                                                                       |
+|___________________________________________________________________________________________________________________________________________|
+*/
+
+/*Boxes*/
+
+.boxx {
+    content: " ";
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+    clear: both;
+    min-width: 180px;
+
+    display: block;
+    float: left;
+}
+
+@media (max-width: 1920px) {
+    .boxx { width: 1300px; margin-left: calc( 50% - 650px ); margin-right: calc( 50% - 650px ); }
+} 
+@media (max-width: 1600px) {
+    .boxx { width: 1300px; margin-left: calc( 50% - 650px ); margin-right: calc( 50% - 650px ); }
+} 
+@media (max-width: 1336px) {
+    .boxx { width: 1300px; margin-left: calc( 50% - 650px );margin-right: calc( 50% - 650px ); }
+} 
+@media (max-width: 992px) {
+    .boxx { width: 980px; margin-left: calc( 50% - 490px ); margin-right: calc( 50% - 490px ); }
+} 
+@media (max-width: 431px) {
+    .boxx { width: 420px; margin-left: calc( 50% - 210px );  margin-right: calc( 50% - 210px ) }
+} 
+@media (max-width: 786px) {
+    .boxx { width: 750px; margin-left: calc( 50% - 325px ); margin-right: calc( 50% - 325px ) }
+} 
+@media (max-width: 431px) {
+    .boxx { width: 420px; margin-left: calc( 50% - 210px );margin-right: calc( 50% - 210px ); }
+} 
+
+svg{
+    shape-rendering:optimizeSpeed;
+}
+
+.b-line {
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+.dis-in{ display:inline-block;  }
+.dis-bl{ display:block;  }
+.dis-none{ display:none;  }
+.float-r{ float:right; }
+.float-l{ float:left; }
+
+/*
+ * Lists
+ */
+
+
+/*
+____________________________________________________________________________________________________________________________________________
+|                                                                                                                                           |
+|                                                               TEXT AND FX                                                                 |
+|___________________________________________________________________________________________________________________________________________|
+*/
+
+.ellip{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#powerProgress{
+    displaY:block;
+    float:left;
+    position:absolute;
+    left:0px;
+    bottom:-4px;
+    height:4px;
+    width:0;
+    background:#006ba2;
+    z-index:20;
+    transition:width 1s;
+} 
+
+
+/*============================================================================================================================================ |
+* ============================================================================================================================================ |
+* ================================================================= BLUE PAGES =============================================================== |
+* ============================================================================================================================================ |
+* ============================================================================================================================================ |
+*
+* Framework : BluePages
+* Author : waxx04
+* created at : 26 / 05 / 2016
+*
+*/
+
+.perspective{
+    perspective: 500px;
+}
+.bluePagesCont{
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top :   0;
+    left:   0;
+    bottom: 0;
+    right:  0;
+    overflow: hidden;
+}
+.bluePagesCont > div{
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden; 
+}
+.bluePagesCont::-webkit-scrollbar               { background: #3e3e36; width: 10px; transition: 4s; }
+.bluePagesCont.scroll-active::-webkit-scrollbar { background: #fff; }
+.bluePagesCont::-webkit-scrollbar-button        { background: transparent; }
+.bluePagesCont::-webkit-scrollbar-track         { background: transparent; }
+.bluePagesCont::-webkit-scrollbar-track-piece   { background: transparent; }
+.bluePagesCont::-webkit-scrollbar-thumb         { background: #3e3e36; }
+.bluePagesCont.scroll-active::-webkit-scrollbar-thumb         { background: #5bd9b3; }
+.bluePagesCont::-webkit-scrollbar-corner        { background: transparent; height: 0 }
+.bluePagesCont::-webkit-resizer                 { background: transparent; height: 0; }
+
+
+.bluePagesCont::-webkit-scrollbar               { background: #3e3e36; width: 10px; transition: 4s; }
+
+.bluePagination{ 
+    opacity:0; 
+    position: fixed; 
+    float: left; 
+    height: 40%;
+    width: 18px;
+    top:30%; 
+    z-index: 900;
+    right: -20px;
+    transition: opacity 1s;
+}
+.bluePagination > .bpPointer,
+.bluePagination .bp_dot{
+    display:block;
+    float: left;
+    width: 18px;  
+    height: 18px;
+    border-radius: 5px; 
+    border: rgba(150,150,150,0) 2px solid;
+    transition: border 0.4s;
+}
+.bluePagination > .bpPointer{
+    position: absolute;
+    border: #5bd9b3 2px solid; 
+    left: 0;
+    opacity: 0;
+    transition: 0.5s;
+}
+.bluePagination .bp_dot div{
+    border-radius: 2px; 
+    width: 6px;
+    height: 6px;
+    margin: 4px 4px;
+    background: rgba(150,150,150,0.2);
+    /*border: rgba(150,150,150,0.1) 2px solid;*/
+}
+.bluePagination > .bp_dot:hover{
+    cursor: pointer;
+    border: rgba(150,150,150,0.7) 2px solid;
+}
+
+#bpScroller{
+    display: block;
+    float: left;
+    width: 10px;
+    background: red;
+    position: absolute;
+    top:0;
+    z-index: 100000;
+}

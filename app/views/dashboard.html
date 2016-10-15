@@ -1,0 +1,16 @@
+<div class="dashboardHeader"></div>
+<div class="db_sidenav"></div>
+<div class="basePage db_page db_pageHalf">
+	<div class="db_sidenav">
+		<div class="dbn_item" ng-click="dash.gotoState('dashboard.home')" ng-class="{'active':dash.state.current.name == 'dashboard.home'}">
+			<div class="dbni_name">Dashboard</div>
+			<div class="dbni_img"><i class="fa fa-dashboard"></i></div>
+		</div>
+		<div class="dbn_item" ng-click="dash.gotoState('dashboard.pro_manager')" ng-class="{'active':dash.state.current.name == 'dashboard.pro_manager'}">
+			<div class="dbni_name">Project Manager</div>
+			<div class="dbni_img"><i class="fa fa-list"></i></div>
+		</div>
+	</div>.current.name
+	<div class="dbv_bg"><img src="images/admin/dashboard/pm/bg.jpg"></div>
+	<div class="db_view"  ui-view=""></div> 
+</div>

@@ -1,0 +1,22 @@
+<div class="basePage login_page">
+	<div class="boxx">
+		<div class="loginBox">
+			<div class="lpl_head">LOGIN</div>
+			<div class="shm_inp">
+				<input type="text" ng-focus="login.inputClick(1)" ng-model="login.inp1" ng-blur="login.checkInput(1)">
+				<div class="shmi_name" ng-class="{'shmi_nameAct':login.inp1Act}">USERNAME</div>
+			</div>
+			<div class="shm_inp">
+				<input type="password" ng-focus="login.inputClick(2)" ng-model="login.inp2" ng-blur="login.checkInput(2)">
+				<div class="shmi_name" ng-class="{'shmi_nameAct':login.inp2Act}">PASSWORD</div>
+			</div>
+			<div class="shm_err">{{login.errorMsg}}</div>
+			<div class="shm_inp">
+				<button type="text" ng-click="login.submitInput()" >
+					<span ng-show="!login.buttonBusy">LOGIN</span>
+					<div class="rotator rotSmall" ng-show="login.buttonBusy"></div>
+				</button> 
+			</div>
+		</div>
+	</div>
+</div>

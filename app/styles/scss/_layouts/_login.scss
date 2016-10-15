@@ -1,0 +1,50 @@
+.login_page,.loginBox,.lpl_head,.lpl_cont
+{
+	display:block;
+	float:left;	
+}
+.login_page{
+	width:100%;
+	background:#fff;
+	min-height:600px;
+	padding-top:100px;
+}
+.loginBox{ 
+	width:380px;
+	min-height:350px; 
+	margin:100px calc( 50% - 190px );
+	@include border-radius(10px);
+	border:1px solid #ccc;
+	.shm_inp{
+		button{
+			width:150px;
+			margin-left:calc( 50% - 75px );
+			span{
+				display:block;
+				text-align:center;
+				width:100%;
+				height:100%;
+				background:$themeColorG;
+				position:relative;
+				z-index:99;
+			}
+			div{
+				z-index:98;
+			}
+		}
+	}
+	.lpl_cont,
+	.lpl_head{
+		width:100%;
+		font-family:mixUL;
+		font-size:60px;
+		text-align:center;
+		color:$themeBG;
+		margin:30px 0 40px 0;
+	}
+	.lpl_cont{
+		font-size:120%;
+		color:#999;
+		margin:50px 0;
+	}
+}

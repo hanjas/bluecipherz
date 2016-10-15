@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/font-awesome-4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-dp/angular-dp.css" />
+    
+    <link rel="stylesheet" href="styles/css/Bluegrid/Bluegrid.css">
+    <link rel="stylesheet" href="styles/css/base.css">
+    <link rel="stylesheet" href="styles/css/layouts.css">
+    <link rel="stylesheet" href="styles/css/modules.css">
+    <link rel="stylesheet" href="styles/css/states.css"> 
+    <link rel="stylesheet" href="styles/css/themes.css"> 
+    <link rel="stylesheet" href="styles/css/themes/default-theme.css">
+    <!-- <link rel="stylesheet" href="styles/css/font-awesome.min.css"> -->
+    <!-- endbuild -->
+  </head>
+  <body ng-app="alFjrApp">
+    <title>{{title}}</title>
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here --> 
+    <div class="header" ng-controller="NavCtrl as nav" ng-class="{'headerAct':headerActive,'headerBG':headerBGFull}">
+    <a class="ht_btnTop ht_btnS" ng-if="!loggedIn" ng-href="#/sign_up">SIGN UP</a>
+    <a class="ht_btnTop ht_btnL" ng-if="!loggedIn" ng-href="#/login">LOG IN</a>
+    <div  ng-if="loggedIn" class="ht_btnSet">
+      <!-- <a ng-href="#/logout"><img src="images/admin/logout.png"></a> -->
+      <div class="htb_name" ng-class="{'htb_name-nh':noHeader}" ng-click="nav.sideButton()"><div class="htbn_arrow"></div>{{userData.name}}</div>
+    </div>
+
+      <div class="boxx">
+        <div class="homeHeader" ng-class="{'noHeader':noHeader}">
+          <div class="hh_inner">
+<!-- 
+            <a ng-click="nav.btnClick('work')" draggable="false" ng-href="/#/works" class="hh_btn" ng-class="{'hh_btnAct':state.current.name == 'works'}">
+              <img  draggable="false" src="images/home/work_b.png">
+              <span>WORKS</span>
+            </a>
+            <a  ng-click="nav.btnClick('pricing')" draggable="false" ng-href="/#/pricing" class="hh_btn" ng-class="{'hh_btnAct':state.current.name == 'pricing'}">
+              <img  draggable="false" src="images/home/pricing_b.png">
+              <span>PRICING</span>
+            </a> -->
+            <a  ng-click="nav.btnClick('say_hello')" draggable="false" ng-href="/#/say_hello" class="hh_btn" ng-class="{'hh_btnAct':state.current.name == 'say_hello'}">
+              <img  draggable="false" src="images/home/contact_b.png">
+              <span>SAY HELLO</span>
+            </a>
+            <a  ng-click="nav.btnClick('home')" draggable="false" ng-href="/#/home" class="hh_btn" ng-class="{'hh_btnAct':state.current.name == 'home'}">
+              <img  draggable="false" src="images/home/logo_b.png">
+              <span>HOME</span>
+            </a>
+            <a  ng-click="nav.btnClick('who_we_are')" draggable="false" ng-href="/#/who_we_are" class="hh_btn" ng-class="{'hh_btnAct':state.current.name == 'who_we_are'}">
+              <img  draggable="false" src="images/home/whoweare_b.png">
+              <span>WHO WE ARE</span>
+            </a>
+
+          </div>
+        </div>
+      </div> 
+    </div>
+    <div class="homeBG"><img draggable="false" src="images/home/homeBG.png"></div>
+    <div class="viewPort" ng-class="{'z-down':z_down}" ui-view></div> 
+    <!-- NG VIEW -->
+
+    <div class="pageMessage" ng-class="{'display':pageBusy || mbShow }">
+      <div class="rotator" ng-class="{'display':pageBusy}"></div>
+      <div class="msgBox" ng-class="{'display':mbShow}">
+        <div class="mb_head">{{mbHead}}</div>
+        <div class="mb_cont">{{mbCont}}</div>
+        <div class="mb_btn" ng-click="mbClick(mbClFunc)">{{mbBtn}}</div>
+      </div>
+    </div>
+
+    <div class="ht_side" ng-controller="SideCtrl as side"ng-class="{'ht_sideAct':pageSide}">
+      <div class="hts_top">
+        <div class="htst_back" ng-click="side.sideButton()">BACK</div>
+        <a class="htst_logout last" ng-click="side.logout()"><img src="images/admin/logout.png"></a>
+        <a class="htst_logout" ng-click="side.go('profile_edit')"><i class="fa fa-cog"></i></a>
+        <a class="htst_logout" ng-click="side.go('dashboard.home')"><i class="fa fa-bar-chart"></i></a>
+        <a class="htst_logout" ng-click="side.go('home')"><i class="fa fa-home"></i></a>
+      </div>
+      <div class="hts_top2">
+        <div class="htst2_btn" ng-click="side.tab = 1" ng-class="{'htst2b_act':side.tab == 1}">PROFILE</div>        
+        <div class="htst2_btn" ng-click="side.tab = 2" ng-class="{'htst2b_act':side.tab == 2}">NOTIFICATIONS</div>        
+      </div>
+
+      <div class="hts_sector hts_profile" ng-show="side.tab == 1">
+        <div class="htsp_img"></div>
+        <div class="htsp_name">{{userData.name}}</div>
+        <div class="htsp_post">{{userData.position}}</div>
+      </div>
+      <div class="hts_sector hts_noti" ng-show="side.tab == 2">
+        <div class="htsn_nn">No notifications</div>
+      </div>
+    </div>
+    <!-- <div class=""></div> -->
+    
+    <div class="footer">
+      <div class="footerInner">
+        <div class="f_left">
+          <div class="fl_logo"><img src="images/footer/logoWithText.png" draggable="false"></div>
+          <div class="fl_followSet">
+            <div class="fl_followBtn flfbtn_fb"></div> 
+            <div class="fl_followBtn flfbtn_gp"></div>
+            <div class="fl_followBtn flfbtn_tw"></div>
+            <div class="fl_followBtn flfbtn_pr"></div>
+          </div>
+        </div>
+        <div class="f_left2">
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Web Application</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Mobile Application</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Web Application</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Graphic Designing</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">E-Commerce</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Brochure Designing</div></div>
+          <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">CCTV Camera</div></div>
+        </div>  
+      </div>
+    </div>
+    <!-- 
+    <div class="footer">
+      <div class="f_left">
+        <div class="fl_logo"><img src="images/footer/logoWithText.png" draggable="false"></div>
+        <div class="fl_followSet">
+          <div class="fl_followBtn flfbtn_fb"></div>
+          <div class="fl_followBtn flfbtn_gp"></div>
+          <div class="fl_followBtn flfbtn_tw"></div>
+          <div class="fl_followBtn flfbtn_pr"></div>
+        </div>
+      </div>
+      <div class="f_left2">
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Web Application</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Mobile Application</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Web Application</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Graphic Designing</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">E-Commerce</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">Brochure Designing</div></div>
+        <div class="fl2_link"><div class="fl2l_bullet"></div><div class="fl2l_name">CCTV Camera</div></div>
+      </div> 
+      <div class="f_mid">
+        <img src="images/footer/logoBig.png" draggable="false">
+      </div> 
+      <div class="f_right2">
+        <div class="fr2_link"><div class="frl2_bullet"></div><div class="frl2_name">Who We Are</div></div>
+        <div class="fr2_link"><div class="frl2_bullet"></div><div class="frl2_name">Pricing</div></div>
+        <div class="fr2_link"><div class="frl2_bullet"></div><div class="frl2_name">Folio</div></div>
+        <div class="fr2_link"><div class="frl2_bullet"></div><div class="frl2_name">Sign Up</div></div>
+        <div class="fr2_link"><div class="frl2_bullet"></div><div class="frl2_name">Say Hello</div></div>
+      </div>
+      <div class="f_right">
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Who We Are</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Pricing</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Folio</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Sign Up</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Say Hello</div></div> 
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Who We Are</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Pricing</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Folio</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Sign Up</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Say Hello</div></div> 
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Who We Are</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Pricing</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Folio</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Sign Up</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Say Hello</div></div> 
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Who We Are</div></div>
+        <div class="fr_link"><div class="frl_bullet"></div><div class="frl_name">Pricing</div></div> 
+      </div>
+    </div> -->
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       // !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       // (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       // r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       // }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       // ga('create', 'UA-XXXXX-X');
+       // ga('send', 'pageview');
+    </script>
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery/dist/scrollspeed.js"></script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+    <script src="bower_components/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <script src="bower_components/angular-dp/angular-dp.js"></script>
+    <script src="scripts/plugins/satellizer/satellizer.js"></script>
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/services/headerService.js"></script>
+        <script src="scripts/services/tokenHandler.js"></script>
+        <script src="scripts/services/projectFactory.js"></script>
+        <script src="scripts/services/feedFactory.js"></script>
+        <script src="scripts/services/loginService.js"></script>
+        <script src="scripts/services/fileService.js"></script>
+        <script src="scripts/controllers/work.js"></script>
+        <script src="scripts/controllers/pricing.js"></script>
+        <script src="scripts/controllers/say_hello.js"></script>
+        <script src="scripts/controllers/who_we_are.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/dashboard.js"></script>
+        <script src="scripts/controllers/profile.js"></script>
+        <script src="scripts/controllers/test.js"></script>
+        <script src="scripts/controllers/dashboard/projectManager.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

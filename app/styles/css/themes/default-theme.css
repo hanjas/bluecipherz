@@ -1,0 +1,128 @@
+/* Colors */
+/* images */
+/* Testing */
+.TRed {
+  background: #eb514f !important; }
+
+.TYellow {
+  background: #f3cb47 !important; }
+
+.Transparent {
+  background: rgba(255, 255, 255, 0.3) !important; }
+
+.TGray {
+  background: #888 !important; }
+
+.TBlack {
+  background: #222 !important; }
+
+.TWhite {
+  background: #eee !important; }
+
+.TRedColor {
+  color: #eb514f !important; }
+
+.TYellowColor {
+  color: #f3cb47 !important; }
+
+.TransparentColor {
+  color: rgba(255, 255, 255, 0.3) !important; }
+
+.TBlackColor {
+  color: #222 !important; }
+
+.TWhiteColor {
+  color: #eee !important; }
+
+.TWhite .bl-ul > .active > a, .TYellow .bl-ul > .active > a {
+  background: none;
+  color: rgba(0, 0, 0, 0.6); }
+.TWhite .bl-ul > li > a, .TYellow .bl-ul > li > a {
+  background: none;
+  color: rgba(0, 0, 0, 0.4); }
+.TWhite .navRoller, .TYellow .navRoller {
+  background: rgba(0, 0, 0, 0.05); }
+
+.TYellow img {
+  filter: brightness(0%);
+  /* Someday, sigh ... */
+  -webkit-filter: brightness(0%);
+  /* Prefixed CSS3 blur filters */
+  -moz-filter: brightness(0%);
+  -o-filter: brightness(0%);
+  -ms-filter: brightness(0%); }
+
+.TWhite .FT-logo img {
+  filter: brightness(0%);
+  /* Someday, sigh ... */
+  -webkit-filter: brightness(0%);
+  /* Prefixed CSS3 blur filters */
+  -moz-filter: brightness(0%);
+  -o-filter: brightness(0%);
+  -ms-filter: brightness(0%); }
+
+/* -------------------- THIS SECTION IS FOR EXTRAOPTION ----------------------- */
+.EOptionHead .EOption {
+  opacity: 0;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+  padding: 5px; }
+  .EOptionHead .EOption .red, .EOptionHead .EOption .yellow, .EOptionHead .EOption .black, .EOptionHead .EOption .white, .EOptionHead .EOption .trans, .EOptionHead .EOption .gray {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 1px; }
+  .EOptionHead .EOption .red {
+    background: #eb514f; }
+  .EOptionHead .EOption .yellow {
+    background: #f3cb47; }
+  .EOptionHead .EOption .white {
+    background: #fff; }
+  .EOptionHead .EOption .trans {
+    background: #888; }
+  .EOptionHead .EOption .black {
+    background: #444; }
+  .EOptionHead .EOption .gray {
+    background: #aaa; }
+
+.EOptionHead:hover .EOption {
+  opacity: 1; }
+  .EOptionHead:hover .EOption .red, .EOptionHead:hover .EOption .yellow, .EOptionHead:hover .EOption .black, .EOptionHead:hover .EOption .white, .EOptionHead:hover .EOption .trans, .EOptionHead:hover .EOption .gray:hover {
+    cursor: pointer;
+    border: 2px solid black; }
+
+.TWhiteColorHM .head {
+  color: #fff !important; }
+.TWhiteColorHM .foot {
+  color: rgba(255, 255, 255, 0.3) !important; }
+  .TWhiteColorHM .foot h4 {
+    color: #fff !important; }
+
+.TBlackColorHM .head {
+  color: #000 !important; }
+.TBlackColorHM .foot {
+  color: rgba(0, 0, 0, 0.3) !important; }
+  .TBlackColorHM .foot h4 {
+    color: #000 !important; }
+
+.TGrayColorHM .head {
+  color: rgba(0, 0, 0, 0.6) !important; }
+.TGrayColorHM .foot {
+  color: rgba(0, 0, 0, 0.3) !important; }
+  .TGrayColorHM .foot h4 {
+    color: rgba(0, 0, 0, 0.6) !important; }
+
+.TGray2ColorHM .head {
+  color: rgba(0, 0, 0, 0.4) !important; }
+.TGray2ColorHM .foot {
+  color: rgba(0, 0, 0, 0.25) !important; }
+  .TGray2ColorHM .foot h4 {
+    color: rgba(0, 0, 0, 0.4) !important; }
+
+/*# sourceMappingURL=default-theme.css.map */
